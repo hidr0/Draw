@@ -51,7 +51,7 @@ gainControl.setValue(6.0f);
 
 if ((Clicks%2)!=0){	
 FloatControl gainControl =(FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-gainControl.setValue(-50.0f);
+gainControl.setValue(-60.0f);
 }
 
 }
