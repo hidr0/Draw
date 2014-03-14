@@ -28,12 +28,35 @@ class PadDraw extends JComponent{
 		setDoubleBuffered(false);
 		addMouseListener(new MouseAdapter(){
 			public void mousePressed(MouseEvent e){
-				oldX = e.getX();
-				oldY = e.getY();
-				graphics2D.setStroke(new BasicStroke(stroke));
-				graphics2D.drawLine(oldX, oldY, oldX, oldY);
-				repaint();
+				currentX = e.getX();
+				currentY = e.getY();
+					System.out.println(oldX);
+					System.out.println(oldY);
+					graphics2D.setStroke(new BasicStroke(stroke));
+					graphics2D.drawLine(oldX, oldY, currentX, currentY);
+					repaint();
+					
+				oldX = currentX;
+				oldY = currentY;
 			}
+			
+			public void mouseClicked(MouseEvent e){
+				if(graphics2D == null){
+					currentX = oldX = e.getX();
+					currentY = oldY  = e.getY();
+					System.out.println("if");
+				}else{
+					System.out.println("else");
+					currentX = e.getX();
+					currentY = e.getY();
+				}
+				//graphics2D.setStroke(new BasicStroke(stroke));
+				graphics2D.drawLine(oldX, oldY, currentX, currentY);
+				repaint();
+				oldX = currentX;
+				oldY = currentY;
+			}
+		
 		});
 		//if the mouse is pressed it sets the oldX & oldY
 		//coordinates as the mouses x & y coordinates
@@ -44,11 +67,13 @@ class PadDraw extends JComponent{
 				if(graphics2D != null)
 				graphics2D.setStroke(new BasicStroke(stroke));
 				graphics2D.drawLine(oldX, oldY, currentX, currentY);
+				for (int i = 0; i < 20; i++) {
+					graphics2D.drawOval(currentX, currentY, i, i);
+				}
 				repaint();
 				oldX = currentX;
 				oldY = currentY;
 			}
-
 		});
 		
 	
@@ -65,13 +90,13 @@ class PadDraw extends JComponent{
 			clear();
 
 		}
-		g.drawImage(image, 0, 0, null);// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½!?
+		g.drawImage(image, 0, 0, null);// ����� ����� �� ������!?
 	}
 
 	public void clear(){
-		graphics2D.setPaint(Color.white);//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
-		graphics2D.fillRect(0, 0, getSize().width, getSize().height);// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
-		graphics2D.setPaint(Color.black);// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ clear ï¿½ï¿½ï¿½ï¿½ï¿½ default ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½
+		graphics2D.setPaint(Color.white);//����� ��� ����.
+		graphics2D.fillRect(0, 0, getSize().width, getSize().height);// ����� ��� ������������, �� �� ������ ������ � ���������� �� ���������.
+		graphics2D.setPaint(Color.black);// ����� ���� ���� ������ clear ����� default ����, �����
 		repaint();
 	}
 	
@@ -113,6 +138,13 @@ class PadDraw extends JComponent{
 		
 	}
 	
+	public void rect(){
+		graphics2D.drawOval(100, 100, 100, 100);
+		repaint();
+		
+		
+	}
 	
 
 }
+

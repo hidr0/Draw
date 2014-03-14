@@ -46,6 +46,7 @@ public class UI {
 		colorButtonsCreate();
 		drawingFrame();
 		buttonFrame();
+		//drawPad.rect();
 	}
 
 	void functionality() {
@@ -121,23 +122,6 @@ public class UI {
 
 		});
 		
-		
-		// Collor Button functionality
-		
-		colors[0]=Color.black;		
-		colors[1]=Color.blue;		
-		colors[2]=Color.cyan;		
-		colors[3]=Color.DARK_GRAY;		
-		colors[4]=Color.gray;		
-		colors[5]=Color.green;		
-		colors[6]=Color.LIGHT_GRAY;		
-		colors[7]=Color.magenta;		
-		colors[8]=Color.orange;		
-		colors[9]=Color.pink;		
-		colors[10]=Color.red;		
-		colors[11]=Color.white;		
-		colors[12]=Color.yellow;
-		
 		for (int i = 0; i < colorButtons.length; i++) {
 			final int j = i;
 			colorButtons[i].addActionListener(new ActionListener() {
@@ -171,7 +155,7 @@ public class UI {
 			colorButtons[i].setBackground(colors[i]);
 			colorButtons[i].setOpaque(true);
 			colorButtons[i].setBorderPainted(false);
-			System.out.println(i);
+
 		}
 		
 	
