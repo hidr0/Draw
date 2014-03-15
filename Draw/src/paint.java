@@ -8,7 +8,7 @@ public class paint {
 		UI userInterfase = new UI();
 		userInterfase.beautify();
 		
-		new SoundClipTest();
+		
 
 	}
 

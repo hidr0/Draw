@@ -30,33 +30,14 @@ class PadDraw extends JComponent{
 			public void mousePressed(MouseEvent e){
 				currentX = e.getX();
 				currentY = e.getY();
-					System.out.println(oldX);
-					System.out.println(oldY);
 					graphics2D.setStroke(new BasicStroke(stroke));
-					graphics2D.drawLine(oldX, oldY, currentX, currentY);
+					graphics2D.drawLine(currentX, currentY, currentX, currentY);
 					repaint();
 					
 				oldX = currentX;
 				oldY = currentY;
 			}
 			
-			public void mouseClicked(MouseEvent e){
-				if(graphics2D == null){
-					currentX = oldX = e.getX();
-					currentY = oldY  = e.getY();
-					System.out.println("if");
-				}else{
-					System.out.println("else");
-					currentX = e.getX();
-					currentY = e.getY();
-				}
-				//graphics2D.setStroke(new BasicStroke(stroke));
-				graphics2D.drawLine(oldX, oldY, currentX, currentY);
-				repaint();
-				oldX = currentX;
-				oldY = currentY;
-			}
-		
 		});
 		//if the mouse is pressed it sets the oldX & oldY
 		//coordinates as the mouses x & y coordinates
@@ -67,9 +48,10 @@ class PadDraw extends JComponent{
 				if(graphics2D != null)
 				graphics2D.setStroke(new BasicStroke(stroke));
 				graphics2D.drawLine(oldX, oldY, currentX, currentY);
-				for (int i = 0; i < 20; i++) {
-					graphics2D.drawOval(currentX, currentY, i, i);
-				}
+				//graphics2D.drawLine(oldX, oldY, currentX, currentY);
+				//for (int i = 0; i < 20; i++) {
+				//	graphics2D.drawOval(currentX, currentY, i, i);
+				//}
 				repaint();
 				oldX = currentX;
 				oldY = currentY;
@@ -90,13 +72,13 @@ class PadDraw extends JComponent{
 			clear();
 
 		}
-		g.drawImage(image, 0, 0, null);// ����� ����� �� ������!?
+		g.drawImage(image, 0, 0, null);// ��������������� ��������������� ������ ������������������!?
 	}
 
 	public void clear(){
-		graphics2D.setPaint(Color.white);//����� ��� ����.
-		graphics2D.fillRect(0, 0, getSize().width, getSize().height);// ����� ��� ������������, �� �� ������ ������ � ���������� �� ���������.
-		graphics2D.setPaint(Color.black);// ����� ���� ���� ������ clear ����� default ����, �����
+		graphics2D.setPaint(Color.white);//��������������� ��������� ������������.
+		graphics2D.fillRect(0, 0, getSize().width, getSize().height);// ��������������� ��������� ������������������������������������, ������ ������ ������������������ ������������������ ��� ������������������������������ ������ ���������������������������.
+		graphics2D.setPaint(Color.black);// ��������������� ������������ ������������ ������������������ clear ��������������� default ������������, ���������������
 		repaint();
 	}
 	

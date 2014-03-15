@@ -76,9 +76,11 @@ gainControl.setValue(-60.0f);
       this.setVisible(true);
    }
    
-public static void main(String[] args) {
-new SoundClipTest();
+//public static void main(String[] args) {
+//new SoundClipTest();
+//}
+public void mute(){
+	
 }
-
   
 }

@@ -13,7 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class UI {
-
+	SoundClipTest sound = new SoundClipTest();
 	PadDraw drawPad = new PadDraw();
 	JFrame drawingFrame = new JFrame();
 	JPanel drawingPanel = new JPanel();
@@ -35,7 +35,7 @@ public class UI {
 	JButton colorStatusButton = new JButton("");
 	JButton strokeStatusButton = new JButton("Stroke = 1");
 	JButton colorButton = new JButton("Colors");
-	
+	JButton muteButton = new JButton("Mute");
 	
 
 	// Color Buttons and Colors
@@ -46,7 +46,7 @@ public class UI {
 		colorButtonsCreate();
 		drawingFrame();
 		buttonFrame();
-		//drawPad.rect();
+		
 	}
 
 	void functionality() {
@@ -59,6 +59,14 @@ public class UI {
 					buttonFrame.setVisible(true);
 					showColorFrame = true;
 				}	
+			}
+		});
+		
+		muteButton.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				sound.mute();
+				
 			}
 		});
 		
