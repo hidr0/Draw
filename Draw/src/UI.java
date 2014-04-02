@@ -1,3 +1,5 @@
+
+
 import java.awt.BorderLayout;
 
 import java.awt.Dimension;
@@ -21,12 +23,15 @@ public class UI {
 	JPanel buttonPanel = new JPanel();
 	JFrame buttonFrame = new JFrame();
 	
+	JPanel toolPanel = new JPanel();
+	JFrame toolFrame = new JFrame();
+	
 	Boolean showColorFrame = true;
 	
 	int tool = 2;
 
 	// Drawing Panel Buttons
-	JButton[] drawingPanelButtons = new JButton[7];
+	
 	
 	JButton clearButton = new JButton("Clear");
 	JButton plusButton = new JButton("Plus");
@@ -36,20 +41,26 @@ public class UI {
 	JButton strokeStatusButton = new JButton("Stroke = 1");
 	JButton colorButton = new JButton("Colors");
 	JButton muteButton = new JButton("Mute");
+	JButton testButton = new JButton("Test");
 	
 
 	// Color Buttons and Colors
 	JButton[] colorButtons = new JButton[13];
 	final Color[] colors = new Color[13];
 
+	// Tools Buttons
+	JButton[] toolButtons = new JButton[4];
+	
+	
 	public void beautify() {
 		colorButtonsCreate();
 		drawingFrame();
 		buttonFrame();
+		toolFrame();
 		
 	}
 
-	void functionality() {
+	void colorFunctionality() {
 		colorButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(buttonFrame.isVisible()){
@@ -63,7 +74,6 @@ public class UI {
 		});
 		
 		muteButton.addActionListener(new ActionListener() {
-			
 			public void actionPerformed(ActionEvent e) {
 				sound.mute();
 				
@@ -163,7 +173,6 @@ public class UI {
 			colorButtons[i].setBackground(colors[i]);
 			colorButtons[i].setOpaque(true);
 			colorButtons[i].setBorderPainted(false);
-
 		}
 		
 	
@@ -172,8 +181,10 @@ public class UI {
 	void colorButtonsCreate(){
 		makeColorButtons();
 		setcollors();
-		functionality();
+		colorFunctionality();
 	}
+	
+	
 
 	void drawingFrame() {
 		drawingPanel();
@@ -202,6 +213,7 @@ public class UI {
 		drawingPanel.add(minusButton);
 		drawingPanel.add(strokeStatusButton);
 		drawingPanel.add(plusButton);
+		drawingPanel.add(muteButton);
 		drawingPanel.add(colorStatusButton);
 		drawingPanel.add(clearButton);
 	}
@@ -226,11 +238,38 @@ public class UI {
 			buttonPanel.add(colorButtons[i]);
 		}
 	}
+	void toolFrame(){
+		makeToolButtons();
+		toolPanel();
+		toolFrame.add(toolPanel);
+		toolFrame.setAlwaysOnTop(true);
+		toolFrame.setSize(180,200);
+		toolFrame.setLocation(500, 500);
+		toolFrame.setResizable(false);
+		toolFrame.setVisible(true);
+		JRootPane root = buttonFrame.getRootPane( );
+		root.putClientProperty( "Window.shadow", Boolean.FALSE );
+	}
+	void toolPanel(){
+		toolPanel.setLayout(new GridLayout(5,5));
+		toolPanel.setPreferredSize(new Dimension(30,100));
+		toolPanel.setBackground(new Color(60, 60, 60));
+		for (int i = 0; i < toolButtons.length; i++) {
+			toolPanel.add(toolButtons[i]);
+		}
+	}
 	
 	void makeColorButtons(){
 		for (int i = 0; i < colorButtons.length; i++) {
 			colorButtons[i] = new JButton();
 		}
+	}
+	
+	void makeToolButtons(){
+		toolButtons[0] = new JButton("Pen");
+		toolButtons[1] = new JButton("Pensil");
+		toolButtons[2] = new JButton("Shape");
+		toolButtons[3] = new JButton("Spray");
 	}
 
 }
