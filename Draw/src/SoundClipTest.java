@@ -43,8 +43,8 @@ public class SoundClipTest extends JFrame {
 				}
 			});
 
-			clip.start();
-			clip.loop(Clip.LOOP_CONTINUOUSLY);
+			//clip.start();
+			//clip.loop(Clip.LOOP_CONTINUOUSLY);
 		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
