@@ -42,7 +42,8 @@ public class UI {
 	JButton colorButton = new JButton("Colors");
 	JButton muteButton = new JButton("Mute");
 	JButton testButton = new JButton("Test");
-	
+	JButton openButton = new JButton("Open");
+	JButton saveButton = new JButton("Save");
 
 	// Color Buttons and Colors
 	JButton[] colorButtons = new JButton[13];
@@ -79,6 +80,20 @@ public class UI {
 				
 			}
 		});
+		openButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				drawPad.openImage();
+				
+			}
+		});
+		
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				drawPad.saveImage();
+				}
+		});
+		
+		
 		
 		colorStatusButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -208,6 +223,8 @@ public class UI {
 		colorStatusButton.setOpaque(true);
 		colorStatusButton.setBackground(Color.black);
 		colorStatusButton.setBorderPainted(false);
+		drawingPanel.add(openButton);
+		drawingPanel.add(saveButton);
 		drawingPanel.add(exitButton);
 		drawingPanel.add(colorButton);
 		drawingPanel.add(minusButton);

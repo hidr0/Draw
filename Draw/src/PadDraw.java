@@ -9,8 +9,16 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 
 
@@ -18,6 +26,9 @@ import javax.swing.JComponent;
 class PadDraw extends JComponent{
 	int stroke = 1;
 	Image image;
+	BufferedImage img;
+	JFileChooser chooser;
+	File file;
 	//this is gonna be your image that you draw on
 	Graphics2D graphics2D;
 	//this is what we'll be using to draw on
@@ -127,7 +138,39 @@ class PadDraw extends JComponent{
 		
 		
 	}
+	public void openImage(){
+		chooser= new JFileChooser();
+		chooser.showOpenDialog(null);
+		file=chooser.getSelectedFile();
+		try {
+			img=ImageIO.read(file);
+		} catch (IOException e1) {}
+		
+		graphics2D.drawImage(img,0,0,null);
+		
+	}
+	public void saveImage(){
+		//   String[] formats = ImageIO.getWriterFormatNames();
+			
+		FileNameExtensionFilter filter= new FileNameExtensionFilter("png image","png");
+		FileNameExtensionFilter filterJPG= new FileNameExtensionFilter("jpg image","jpg");
+
+		   File saveFile = new File("savedimage.");
+           JFileChooser chooser = new JFileChooser();
+           chooser.setFileFilter(filterJPG);
+           chooser.setFileFilter(filter);
+           chooser.setSelectedFile(saveFile);
+           chooser.showSaveDialog(null);
+            saveFile = chooser.getSelectedFile();
+              
+               try {
+                   ImageIO.write((RenderedImage)image,"png",saveFile);
+               } catch (IOException ex) {}
+               }
+	
+	
+}
 	
 
-}
+
 
