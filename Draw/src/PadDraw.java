@@ -147,6 +147,7 @@ class PadDraw extends JComponent{
 		} catch (IOException e1) {}
 		
 		graphics2D.drawImage(img,0,0,null);
+		repaint();
 		
 	}
 	public void saveImage(){
