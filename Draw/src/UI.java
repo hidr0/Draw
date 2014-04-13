@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 import java.awt.Dimension;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 
@@ -25,32 +26,29 @@ public class UI {
 	
 	JPanel toolPanel = new JPanel();
 	JFrame toolFrame = new JFrame();
-	
-	Boolean showColorFrame = true;
-	
-	int tool = 2;
 
 	// Drawing Panel Buttons
-	
-	
 	JButton clearButton = new JButton("Clear");
 	JButton plusButton = new JButton("Plus");
 	JButton minusButton = new JButton("Minus");
 	JButton exitButton = new JButton("Exit");
 	JButton colorStatusButton = new JButton("");
+	JButton toolStatusButton = new JButton("Pensil");
 	JButton strokeStatusButton = new JButton("Stroke = 1");
-	JButton colorButton = new JButton("Colors");
 	JButton muteButton = new JButton("Mute");
 	JButton testButton = new JButton("Test");
 	JButton openButton = new JButton("Open");
 	JButton saveButton = new JButton("Save");
+	
+	//Tool Buttons
+	JButton pensilButton = new JButton("Pensil");
+	JButton penButton = new JButton("Pen"); 
+	JButton shapeButton = new JButton("Shape");
+	JButton sprayButton = new JButton("Spray");
 
 	// Color Buttons and Colors
 	JButton[] colorButtons = new JButton[13];
 	final Color[] colors = new Color[13];
-
-	// Tools Buttons
-	JButton[] toolButtons = new JButton[4];
 	
 	
 	public void beautify() {
@@ -61,18 +59,7 @@ public class UI {
 		
 	}
 
-	void colorFunctionality() {
-		colorButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(buttonFrame.isVisible()){
-					buttonFrame.setVisible(false);
-					showColorFrame = false;
-				} else if(!buttonFrame.isVisible()){
-					buttonFrame.setVisible(true);
-					showColorFrame = true;
-				}	
-			}
-		});
+	void buttonFunctionality() {
 		
 		muteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -80,6 +67,19 @@ public class UI {
 				
 			}
 		});
+		
+		toolStatusButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(toolFrame.isVisible());
+				if(toolFrame.isVisible()){
+					toolFrame.setVisible(false);
+				} else{
+					toolFrame.setVisible(true);
+				}	
+				
+			}
+		});
+		
 		openButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				drawPad.openImage();
@@ -99,18 +99,14 @@ public class UI {
 			public void actionPerformed(ActionEvent e) {
 				if(buttonFrame.isVisible()){
 					buttonFrame.setVisible(false);
-					showColorFrame = false;
-				} else if(!buttonFrame.isVisible()){
+				}else{
 					buttonFrame.setVisible(true);
-					showColorFrame = true;
 				}	
 			}
 		});
 		
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				drawingFrame.dispose();
-				buttonFrame.dispose();
 				System.exit(0); // Ne znam dali e prawilno
 			}
 
@@ -120,6 +116,7 @@ public class UI {
 		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				drawPad.clear();
+				drawPad.setPenFlag(false);
 			}
 
 		});
@@ -166,7 +163,43 @@ public class UI {
 
 			});
 		}
+		pensilButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				toolFrame.setVisible(false);
+				toolStatusButton.setText("Pensil");
+				drawPad.setTool("pensil");
+		}
+
+	});
+		penButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				drawPad.setTool("pen");
+				toolStatusButton.setText("Pen");
+				toolFrame.setVisible(false);
+				drawPad.setPenFlag(false);
+		}
+
+	});
+		shapeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				toolStatusButton.setText("Shape");
+				drawPad.setTool("shape");
+				toolFrame.setVisible(false);
+		}
+
+	}); 
+		sprayButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				toolStatusButton.setText("Spray");
+				drawPad.setTool("spray");
+				toolFrame.setVisible(false);
+		}
+
+	});
+		
+	
 	}
+	
 
 	void setcollors() {
 		colors[0]=Color.black;		
@@ -196,7 +229,7 @@ public class UI {
 	void colorButtonsCreate(){
 		makeColorButtons();
 		setcollors();
-		colorFunctionality();
+		buttonFunctionality();
 	}
 	
 	
@@ -223,10 +256,15 @@ public class UI {
 		colorStatusButton.setOpaque(true);
 		colorStatusButton.setBackground(Color.black);
 		colorStatusButton.setBorderPainted(false);
+		toolStatusButton.setOpaque(true);
+		toolStatusButton.setBackground(Color.black);
+		toolStatusButton.setBorderPainted(false);
+		toolStatusButton.setForeground(Color.white);
+		toolStatusButton.setFont(new Font("Dialog", Font.BOLD, 16));
 		drawingPanel.add(openButton);
 		drawingPanel.add(saveButton);
 		drawingPanel.add(exitButton);
-		drawingPanel.add(colorButton);
+		drawingPanel.add(toolStatusButton);
 		drawingPanel.add(minusButton);
 		drawingPanel.add(strokeStatusButton);
 		drawingPanel.add(plusButton);
@@ -256,7 +294,6 @@ public class UI {
 		}
 	}
 	void toolFrame(){
-		makeToolButtons();
 		toolPanel();
 		toolFrame.add(toolPanel);
 		toolFrame.setAlwaysOnTop(true);
@@ -271,9 +308,10 @@ public class UI {
 		toolPanel.setLayout(new GridLayout(5,5));
 		toolPanel.setPreferredSize(new Dimension(30,100));
 		toolPanel.setBackground(new Color(60, 60, 60));
-		for (int i = 0; i < toolButtons.length; i++) {
-			toolPanel.add(toolButtons[i]);
-		}
+		toolPanel.add(pensilButton);
+		toolPanel.add(penButton);
+		toolPanel.add(shapeButton);
+		toolPanel.add(sprayButton);
 	}
 	
 	void makeColorButtons(){
@@ -282,11 +320,5 @@ public class UI {
 		}
 	}
 	
-	void makeToolButtons(){
-		toolButtons[0] = new JButton("Pen");
-		toolButtons[1] = new JButton("Pensil");
-		toolButtons[2] = new JButton("Shape");
-		toolButtons[3] = new JButton("Spray");
-	}
 
 }
