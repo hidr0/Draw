@@ -147,15 +147,24 @@ class PadDraw extends JComponent{
 		} catch (IOException e1) {}
 		
 		graphics2D.drawImage(img,0,0,null);
+		repaint();
 		
 	}
 	public void saveImage(){
-		//   String[] formats = ImageIO.getWriterFormatNames();
-			
+		 String[] formats = {"png","jpg"};
+		
 		FileNameExtensionFilter filter= new FileNameExtensionFilter("png image","png");
 		FileNameExtensionFilter filterJPG= new FileNameExtensionFilter("jpg image","jpg");
 
+		
 		   File saveFile = new File("savedimage.");
+			if(filter.accept(saveFile)){
+				System.out.println("png");
+			}
+			if(filterJPG.accept(saveFile)){
+				System.out.println("jpg");
+				
+			}
            JFileChooser chooser = new JFileChooser();
            chooser.setFileFilter(filterJPG);
            chooser.setFileFilter(filter);
