@@ -21,8 +21,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 @SuppressWarnings("serial")
 class PadDraw extends JComponent {
-	
-	int width,heigth = 0;
+
+	int width, height = 0;
 	Boolean penFlag = false;
 	String tool = "pensil";
 	int stroke = 1;
@@ -40,48 +40,17 @@ class PadDraw extends JComponent {
 	// Now for the constructors
 	public PadDraw() {
 		setDoubleBuffered(false);
-//		addMouseListener(new MouseAdapter() {
-//			public void mouseClicked(MouseEvent e) {
-//				if (tool == "pen") {
-//					if (SwingUtilities.isLeftMouseButton(e)) {
-//						if (penFlag == false) {
-//							currentX = e.getX();
-//							currentY = e.getY();
-//							graphics2D.drawLine(currentX, currentY, currentX,
-//									currentY);
-//							repaint();
-//							oldX = currentX;
-//							oldY = currentY;
-//							penFlag = true;
-//						} else {
-//							currentX = e.getX();
-//							currentY = e.getY();
-//							graphics2D.setStroke(new BasicStroke(stroke));
-//							graphics2D.drawLine(oldX, oldY, currentX, currentY);
-//							repaint();
-//							oldX = currentX;
-//							oldY = currentY;
-//						}
-//					} else if (SwingUtilities.isRightMouseButton(e)) {
-//						penFlag = false;
-//					}
-//
-//				}
-//			}
-//
-//		});
 
 		addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				if (tool == "pensil") {
 					currentX = e.getX();
 					currentY = e.getY();
-					graphics2D.setStroke(new BasicStroke(stroke));
 					graphics2D.drawLine(currentX, currentY, currentX, currentY);
 					repaint();
 					oldX = currentX;
 					oldY = currentY;
-				}else if (tool == "pen") {
+				} else if (tool == "pen") {
 					if (SwingUtilities.isLeftMouseButton(e)) {
 						if (penFlag == false) {
 							currentX = e.getX();
@@ -95,7 +64,6 @@ class PadDraw extends JComponent {
 						} else {
 							currentX = e.getX();
 							currentY = e.getY();
-							graphics2D.setStroke(new BasicStroke(stroke));
 							graphics2D.drawLine(oldX, oldY, currentX, currentY);
 							repaint();
 							oldX = currentX;
@@ -105,12 +73,17 @@ class PadDraw extends JComponent {
 						penFlag = false;
 					}
 
+				} else if (tool == "rect") {
+					rect(e.getX() - width / 2, e.getY() - height / 2, width, height);
+				} else if (tool == "circle") {
+					circle(e.getX() - width / 2, e.getY() - height / 2, width, height);
+				} else if(tool == "spray"){
+					spray(e.getX() - width / 2, e.getY() - height / 2, width, height);
 				}
 			}
 
 		});
-		// if the mouse is pressed it sets the oldX & oldY
-		// coordinates as the mouses x & y coordinates
+
 		addMouseMotionListener(new MouseMotionAdapter() {
 			public void mouseDragged(MouseEvent e) {
 				System.out.println(tool);
@@ -118,19 +91,13 @@ class PadDraw extends JComponent {
 					currentX = e.getX();
 					currentY = e.getY();
 					if (graphics2D != null)
-						graphics2D.setStroke(new BasicStroke(stroke));
-					graphics2D.drawLine(oldX, oldY, currentX, currentY);
+						graphics2D.drawLine(oldX, oldY, currentX, currentY);
 					repaint();
 					oldX = currentX;
 					oldY = currentY;
 				}
 			}
 		});
-
-		// while the mouse is dragged it sets currentX & currentY as the mouses
-		// x and y
-		// then it draws a line at the coordinates
-		// it repaints it and sets oldX and oldY as currentX and currentY
 	}
 
 	public void paintComponent(Graphics g) {
@@ -140,7 +107,6 @@ class PadDraw extends JComponent {
 			graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 					RenderingHints.VALUE_ANTIALIAS_ON);
 			clear();
-
 		}
 		g.drawImage(image, 0, 0, null);
 	}
@@ -162,15 +128,18 @@ class PadDraw extends JComponent {
 				stroke--;
 			}
 		}
+		graphics2D.setStroke(new BasicStroke(stroke));
 	}
 
 	public int getstroke() {
 		return stroke;
 	}
-	public Boolean getPenFlag(){
+
+	public Boolean getPenFlag() {
 		return penFlag;
 	}
-	public void setPenFlag(Boolean temp){
+
+	public void setPenFlag(Boolean temp) {
 		penFlag = temp;
 	}
 
@@ -179,8 +148,22 @@ class PadDraw extends JComponent {
 		repaint();
 	}
 
-	public void rect() {
-		graphics2D.drawOval(100, 100, 100, 100);
+	public void rect(int x, int y, int width, int height) {
+		graphics2D.drawRect(x, y, width, height);
+		repaint();
+	}
+
+	public void circle(int x, int y, int width, int height) {
+		graphics2D.drawOval(x, y, width, height);
+		repaint();
+	}
+	public void spray(int x, int y, int width, int height){
+		for (int i = 0; i < width*height/1000; i++) {
+			int randx = (x + (int) (Math.random() * width));
+			int randy =	(y + (int) (Math.random() * height));
+			System.out.println(height+100*stroke);
+			graphics2D.drawLine(randx , randy, randx, randy);
+		}
 		repaint();
 	}
 
@@ -199,41 +182,43 @@ class PadDraw extends JComponent {
 	}
 
 	public void saveImage() {
-		String[] formats = { "png", "jpg" };
+		// String[] formats = { "png", "jpg" };
 
-		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-				"png image", "png");
-		FileNameExtensionFilter filterJPG = new FileNameExtensionFilter(
-				"jpg image", "jpg");
+		FileNameExtensionFilter filterPNG = new FileNameExtensionFilter("png",
+				"png");
+		FileNameExtensionFilter filterJPG = new FileNameExtensionFilter("jpg",
+				"jpg");
 
 		File saveFile = new File("savedimage.");
-		if (filter.accept(saveFile)) {
-			System.out.println("png");
-		}
-		if (filterJPG.accept(saveFile)) {
-			System.out.println("jpg");
 
-		}
-		JFileChooser chooser = new JFileChooser();
-		chooser.setFileFilter(filterJPG);
-		chooser.setFileFilter(filter);
-		chooser.setSelectedFile(saveFile);
-		chooser.showSaveDialog(null);
-		saveFile = chooser.getSelectedFile();
+		String[] jpg = filterJPG.getExtensions();
+
+		JFileChooser chooser2 = new JFileChooser();
+		chooser2.setFileFilter(filterJPG);
+
+		chooser2.setFileFilter(filterPNG);
+
+		chooser2.setSelectedFile(saveFile);
+		chooser2.showSaveDialog(null);
+		saveFile = chooser2.getSelectedFile();
 
 		try {
-			ImageIO.write((RenderedImage) image, "png", saveFile);
+			ImageIO.write((RenderedImage) image, "jpg", saveFile);
 		} catch (IOException ex) {
+
+			System.out.println("In exeption");
 		}
 	}
 
 	public void setTool(String temp) {
 		tool = temp;
 	}
-	public void setShpaeSize(int w,int h){
-		if(w<1280 && h<720){
-			heigth = h;
+
+	public void setShpaeSize(int w, int h) {
+		if (w < 1280 && h < 720) {
+			height = h;
 			width = w;
 		}
 	}
+
 }

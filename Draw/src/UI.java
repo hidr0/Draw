@@ -70,7 +70,6 @@ public class UI {
 	}
 
 	void buttonFunctionality() {
-		
 		muteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				sound.mute();
@@ -128,6 +127,7 @@ public class UI {
 				drawPad.clear();
 				drawPad.setPenFlag(false);
 				setDefTextPanel();
+				drawPad.setShpaeSize(0,0);
 			}
 
 		});
@@ -190,7 +190,6 @@ public class UI {
 				drawPad.setTool("pen");
 				toolStatusButton.setText("Pen");
 				toolFrame.setVisible(false);
-				drawPad.setPenFlag(false);
 				shapeSizeFrame.setVisible(false);
 		}
 
@@ -198,6 +197,7 @@ public class UI {
 		circleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setDefTextPanel();
+				drawPad.setShpaeSize(0,0);
 				toolStatusButton.setText("Circle");
 				drawPad.setTool("circle");
 				toolFrame.setVisible(false);
@@ -208,6 +208,7 @@ public class UI {
 		rectButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setDefTextPanel();
+				drawPad.setShpaeSize(0,0);
 				toolStatusButton.setText("Rect");
 				drawPad.setTool("rect");
 				toolFrame.setVisible(false);
@@ -221,13 +222,24 @@ public class UI {
 				toolStatusButton.setText("Spray");
 				drawPad.setTool("spray");
 				toolFrame.setVisible(false);
-				shapeSizeFrame.setVisible(false);
+				shapeSizeFrame.setVisible(true);
 		}
 
 	});
+		
 		widthField.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(widthField.getText());
+				if((widthField.getText() != "width") && (heigthField.getText() != "heigth")){
+					drawPad.setShpaeSize(Integer.parseInt(widthField.getText()), Integer.parseInt(heigthField.getText()));
+				}
+			}
+		});
+		
+		heigthField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(widthField.getText() != "width" && heigthField.getText() != "heigth"){
+					drawPad.setShpaeSize(Integer.parseInt(widthField.getText()), Integer.parseInt(heigthField.getText()));
+				}
 			}
 		});
 		
