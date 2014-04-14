@@ -21,6 +21,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 @SuppressWarnings("serial")
 class PadDraw extends JComponent {
+	
+	int width,heigth = 0;
 	Boolean penFlag = false;
 	String tool = "pensil";
 	int stroke = 1;
@@ -227,5 +229,11 @@ class PadDraw extends JComponent {
 
 	public void setTool(String temp) {
 		tool = temp;
+	}
+	public void setShpaeSize(int w,int h){
+		if(w<1280 && h<720){
+			heigth = h;
+			width = w;
+		}
 	}
 }

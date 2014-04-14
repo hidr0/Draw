@@ -26,6 +26,9 @@ public class UI {
 	
 	JPanel toolPanel = new JPanel();
 	JFrame toolFrame = new JFrame();
+	
+	JPanel shapeSizePanel = new JPanel();
+	JFrame shapeSizeFrame = new JFrame();
 
 	// Drawing Panel Buttons
 	JButton clearButton = new JButton("Clear");
@@ -43,8 +46,15 @@ public class UI {
 	//Tool Buttons
 	JButton pensilButton = new JButton("Pensil");
 	JButton penButton = new JButton("Pen"); 
-	JButton shapeButton = new JButton("Shape");
 	JButton sprayButton = new JButton("Spray");
+	
+	//Shape Buttons
+	JButton circleButton = new JButton("Circle");
+	JButton rectButton = new JButton("Rectangle");
+	
+	//Text Areas
+	JTextField widthField = new JTextField(3);
+	JTextField heigthField = new JTextField(3);
 
 	// Color Buttons and Colors
 	JButton[] colorButtons = new JButton[13];
@@ -56,7 +66,7 @@ public class UI {
 		drawingFrame();
 		buttonFrame();
 		toolFrame();
-		
+		shapeSizeFrame();		
 	}
 
 	void buttonFunctionality() {
@@ -117,6 +127,7 @@ public class UI {
 			public void actionPerformed(ActionEvent e) {
 				drawPad.clear();
 				drawPad.setPenFlag(false);
+				setDefTextPanel();
 			}
 
 		});
@@ -159,6 +170,8 @@ public class UI {
 						drawPad.paint(colors[j]);
 						colorStatusButton.setBackground(colors[j]);
 						buttonFrame.setVisible(false);
+						setDefTextPanel();
+						//The problem
 				}
 
 			});
@@ -168,6 +181,7 @@ public class UI {
 				toolFrame.setVisible(false);
 				toolStatusButton.setText("Pensil");
 				drawPad.setTool("pensil");
+				shapeSizeFrame.setVisible(false);
 		}
 
 	});
@@ -177,25 +191,45 @@ public class UI {
 				toolStatusButton.setText("Pen");
 				toolFrame.setVisible(false);
 				drawPad.setPenFlag(false);
+				shapeSizeFrame.setVisible(false);
 		}
 
 	});
-		shapeButton.addActionListener(new ActionListener() {
+		circleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				toolStatusButton.setText("Shape");
-				drawPad.setTool("shape");
+				setDefTextPanel();
+				toolStatusButton.setText("Circle");
+				drawPad.setTool("circle");
 				toolFrame.setVisible(false);
-		}
+				shapeSizeFrame.setVisible(true);
+			}
 
-	}); 
+	});
+		rectButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setDefTextPanel();
+				toolStatusButton.setText("Rect");
+				drawPad.setTool("rect");
+				toolFrame.setVisible(false);
+				shapeSizeFrame.setVisible(true);
+			}
+
+	});
+		
 		sprayButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				toolStatusButton.setText("Spray");
 				drawPad.setTool("spray");
 				toolFrame.setVisible(false);
+				shapeSizeFrame.setVisible(false);
 		}
 
 	});
+		widthField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(widthField.getText());
+			}
+		});
 		
 	
 	}
@@ -261,6 +295,9 @@ public class UI {
 		toolStatusButton.setBorderPainted(false);
 		toolStatusButton.setForeground(Color.white);
 		toolStatusButton.setFont(new Font("Dialog", Font.BOLD, 16));
+		addingDrawingButtons();
+	}
+	void addingDrawingButtons(){
 		drawingPanel.add(openButton);
 		drawingPanel.add(saveButton);
 		drawingPanel.add(exitButton);
@@ -271,6 +308,19 @@ public class UI {
 		drawingPanel.add(muteButton);
 		drawingPanel.add(colorStatusButton);
 		drawingPanel.add(clearButton);
+	}
+	
+	void removingDrawingButtons(){
+		drawingPanel.remove(openButton);
+		drawingPanel.remove(saveButton);
+		drawingPanel.remove(exitButton);
+		drawingPanel.remove(toolStatusButton);
+		drawingPanel.remove(minusButton);
+		drawingPanel.remove(strokeStatusButton);
+		drawingPanel.remove(plusButton);
+		drawingPanel.remove(muteButton);
+		drawingPanel.remove(colorStatusButton);
+		drawingPanel.remove(clearButton);
 	}
 	
 	void buttonFrame(){
@@ -310,8 +360,32 @@ public class UI {
 		toolPanel.setBackground(new Color(60, 60, 60));
 		toolPanel.add(pensilButton);
 		toolPanel.add(penButton);
-		toolPanel.add(shapeButton);
 		toolPanel.add(sprayButton);
+		toolPanel.add(circleButton);
+		toolPanel.add(rectButton);
+	}
+	void shapeSizeFrame(){
+		shapeSizePanel();
+		shapeSizeFrame.add(shapeSizePanel);
+		shapeSizeFrame.setAlwaysOnTop(true);
+		shapeSizeFrame.setSize(150,40);
+		shapeSizeFrame.setLocation(800, 200);
+		shapeSizeFrame.setResizable(false);
+		shapeSizeFrame.setVisible(false);
+		JRootPane root = shapeSizeFrame.getRootPane( );
+		root.putClientProperty( "Window.shadow", Boolean.FALSE );
+	}
+	void shapeSizePanel(){
+		shapeSizePanel.setLayout(new GridLayout(1,1));
+		shapeSizePanel.setPreferredSize(new Dimension(100,100));
+		shapeSizePanel.setBackground(new Color(60, 60, 60));
+		shapeSizePanel.add(widthField);
+		shapeSizePanel.add(heigthField);	
+		setDefTextPanel();
+	}
+	void setDefTextPanel(){
+		widthField.setText("width");
+		heigthField.setText("heigth");
 	}
 	
 	void makeColorButtons(){
