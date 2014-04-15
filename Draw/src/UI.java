@@ -29,6 +29,9 @@ public class UI {
 	
 	JPanel shapeSizePanel = new JPanel();
 	JFrame shapeSizeFrame = new JFrame();
+	
+	JPanel musicPanel = new JPanel();
+	JFrame musicFrame = new JFrame();
 
 	// Drawing Panel Buttons
 	JButton clearButton = new JButton("Clear");
@@ -42,6 +45,7 @@ public class UI {
 	JButton testButton = new JButton("Test");
 	JButton openButton = new JButton("Open");
 	JButton saveButton = new JButton("Save");
+	JButton musicButton = new JButton("Music");
 	
 	//Tool Buttons
 	JButton pensilButton = new JButton("Pensil");
@@ -66,7 +70,8 @@ public class UI {
 		drawingFrame();
 		buttonFrame();
 		toolFrame();
-		shapeSizeFrame();		
+		shapeSizeFrame();
+		musicFrame();
 	}
 
 	void buttonFunctionality() {
@@ -247,6 +252,16 @@ public class UI {
 			}
 		});
 		
+		
+		musicButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(musicFrame.isVisible()){
+					musicFrame.setVisible(false);
+				}else{
+					musicFrame.setVisible(true);
+				}
+			}
+		});
 	
 	}
 	
@@ -317,6 +332,7 @@ public class UI {
 		drawingPanel.add(openButton);
 		drawingPanel.add(saveButton);
 		drawingPanel.add(exitButton);
+		drawingPanel.add(musicButton);
 		drawingPanel.add(toolStatusButton);
 		drawingPanel.add(minusButton);
 		drawingPanel.add(strokeStatusButton);
@@ -337,6 +353,8 @@ public class UI {
 		drawingPanel.remove(muteButton);
 		drawingPanel.remove(colorStatusButton);
 		drawingPanel.remove(clearButton);
+		drawingPanel.remove(musicButton);
+		
 	}
 	
 	void buttonFrame(){
@@ -398,6 +416,25 @@ public class UI {
 		shapeSizePanel.add(widthField);
 		shapeSizePanel.add(heigthField);	
 		setDefTextPanel();
+	}
+	
+	void musicFrame(){
+		musicPanel();
+		musicFrame.add(musicPanel);
+		musicFrame.setAlwaysOnTop(true);
+		musicFrame.setSize(150,40);
+		musicFrame.setLocation(800, 200);
+		musicFrame.setResizable(true);
+		musicFrame.setVisible(false);
+		JRootPane root = shapeSizeFrame.getRootPane( );
+		root.putClientProperty( "Window.shadow", Boolean.FALSE );
+	}
+	
+	void musicPanel(){
+		shapeSizePanel.setLayout(new GridLayout(1,1));
+		shapeSizePanel.setPreferredSize(new Dimension(100,100));
+		shapeSizePanel.setBackground(new Color(60, 60, 60));
+		//musicPanel.add(); butoni za mute i slider
 	}
 	void setDefTextPanel(){
 		widthField.setText("width");
