@@ -1,5 +1,4 @@
 
-
 import java.awt.BorderLayout;
 
 import java.awt.Dimension;
@@ -16,7 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class UI {
-	SoundClipTest sound = new SoundClipTest();
+//	SoundClipTest sound = new SoundClipTest();
+	picAchooseSound newSound = new picAchooseSound();
 	PadDraw drawPad = new PadDraw();
 	JFrame drawingFrame = new JFrame();
 	JPanel drawingPanel = new JPanel();
@@ -72,7 +72,11 @@ public class UI {
 	void buttonFunctionality() {
 		muteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				sound.mute();
+			//	sound.mute();
+			
+				newSound.chooseSound();
+				newSound.playSound();
+				
 				
 			}
 		});
