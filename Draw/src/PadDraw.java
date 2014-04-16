@@ -182,21 +182,24 @@ class PadDraw extends JComponent {
 	}
 
 	public void saveImage() {
-		// String[] formats = { "png", "jpg" };
+		
 
 		FileNameExtensionFilter filterPNG = new FileNameExtensionFilter("png",
 				"png");
 		FileNameExtensionFilter filterJPG = new FileNameExtensionFilter("jpg",
 				"jpg");
+		
+		String[] extension = filterPNG.getExtensions();
 
-		File saveFile = new File("savedimage.");
+		File saveFile = new File("savedimage."+extension[0]);
 
-		String[] jpg = filterJPG.getExtensions();
+		
 
 		JFileChooser chooser2 = new JFileChooser();
+		chooser2.addChoosableFileFilter(filterJPG);
 		chooser2.setFileFilter(filterJPG);
 
-		chooser2.setFileFilter(filterPNG);
+		
 
 		chooser2.setSelectedFile(saveFile);
 		chooser2.showSaveDialog(null);

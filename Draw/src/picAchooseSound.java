@@ -16,28 +16,34 @@ import javax.swing.filechooser.*;
 public class picAchooseSound{
 	JFileChooser soundChooser;
 	File file;
-	//File music;
+
 	Clip clip;
 	AudioInputStream audioIn;
 	String fname;
 	float b ;
+	boolean check=false;
 
-	//JSlider slide ;
+	boolean importCheck=false;
 	FloatControl gainControl;
 	
 	
 	
 	public void chooseSound(){
-		
+		if(importCheck!=true){
+			importCheck=true;
 		soundChooser = new JFileChooser();
 		soundChooser.showOpenDialog(null);
 		file = soundChooser.getSelectedFile();
+	
+		}
 
 
 	}
 	
 	public void playSound(){
+		if(check!=true){
 		try {
+			check = true;
 			// Open an audio input stream.
 
 			 audioIn = AudioSystem.getAudioInputStream(file);
@@ -61,14 +67,18 @@ public class picAchooseSound{
 		} catch (LineUnavailableException w) {
 			w.printStackTrace();
 		}
+		}
 	}
 
 	public void setVolume(){
 		
 	}
 	
+	
 	public void stopMusic(){
 		clip.stop();
+		check = false;
+		importCheck=false;
 	}
 	
 
