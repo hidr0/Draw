@@ -12,9 +12,9 @@ import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.*;
 public class picAchooseSound{
-	JFileChooser chooser;
+	JFileChooser soundChooser;
 	File file;
 	//File music;
 	Clip clip;
@@ -29,9 +29,9 @@ public class picAchooseSound{
 	
 	public void chooseSound(){
 		
-		chooser = new JFileChooser();
-		chooser.showOpenDialog(null);
-		file = chooser.getSelectedFile();
+		soundChooser = new JFileChooser();
+		soundChooser.showOpenDialog(null);
+		file = soundChooser.getSelectedFile();
 
 
 	}
@@ -46,11 +46,14 @@ public class picAchooseSound{
 			// Open audio clip and load samples from the audio input stream.
 			clip.open(audioIn);
 			gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-
-			gainControl.setValue(6.0f);
 			
 			clip.start();
 			clip.loop(Clip.LOOP_CONTINUOUSLY);
+			
+			
+			
+			
+		
 		} catch (UnsupportedAudioFileException w) {
 			w.printStackTrace();
 		} catch (IOException w) {
@@ -63,7 +66,14 @@ public class picAchooseSound{
 	public void setVolume(){
 		
 	}
+	
+	public void stopMusic(){
+		clip.stop();
+	}
+	
 
-
+	public void mute(){
+		gainControl.setValue(gainControl.getMinimum());
+	}
 
 }
