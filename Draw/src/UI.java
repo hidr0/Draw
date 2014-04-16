@@ -41,6 +41,8 @@ public class UI {
 	JButton toolStatusButton = new JButton("Pensil");
 	JButton strokeStatusButton = new JButton("Stroke = 1");
 
+	
+	//Music Buttons
 	JButton testButton = new JButton("Test");
 	JButton openButton = new JButton("Open");
 	JButton saveButton = new JButton("Save");
@@ -56,8 +58,10 @@ public class UI {
 	JButton rectButton = new JButton("Rectangle");
 
 	// Text Areas
+	JButton clearFieldButton = new JButton("Clear");
 	JTextField widthField = new JTextField(3);
 	JTextField heigthField = new JTextField(3);
+	JButton sendFieldButton = new JButton("Send");
 
 	// Color Buttons and Colors
 	JButton[] colorButtons = new JButton[13];
@@ -73,6 +77,7 @@ public class UI {
 	}
 
 	void buttonFunctionality() {
+		
 		toolStatusButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(toolFrame.isVisible());
@@ -119,7 +124,7 @@ public class UI {
 			public void actionPerformed(ActionEvent e) {
 				drawPad.clear();
 				drawPad.setPenFlag(false);
-				setDefTextPanel();
+
 				drawPad.setShpaeSize(0, 0);
 			}
 
@@ -161,12 +166,11 @@ public class UI {
 					drawPad.paint(colors[j]);
 					colorStatusButton.setBackground(colors[j]);
 					buttonFrame.setVisible(false);
-					setDefTextPanel();
-					// The problem
 				}
 
 			});
 		}
+		
 		pensilButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				toolFrame.setVisible(false);
@@ -176,6 +180,7 @@ public class UI {
 			}
 
 		});
+		
 		penButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				drawPad.setTool("pen");
@@ -185,9 +190,9 @@ public class UI {
 			}
 
 		});
+		
 		circleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setDefTextPanel();
 				drawPad.setShpaeSize(0, 0);
 				toolStatusButton.setText("Circle");
 				drawPad.setTool("circle");
@@ -196,9 +201,9 @@ public class UI {
 			}
 
 		});
+		
 		rectButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setDefTextPanel();
 				drawPad.setShpaeSize(0, 0);
 				toolStatusButton.setText("Rect");
 				drawPad.setTool("rect");
@@ -237,6 +242,23 @@ public class UI {
 							Integer.parseInt(widthField.getText()),
 							Integer.parseInt(heigthField.getText()));
 				}
+			}
+		});
+		
+		sendFieldButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (widthField.getText() != "width"
+						&& heigthField.getText() != "heigth") {
+					drawPad.setShpaeSize(
+							Integer.parseInt(widthField.getText()),
+							Integer.parseInt(heigthField.getText()));
+				}
+			}
+		});
+		
+		clearFieldButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setDefTextPanel();
 			}
 		});
 
@@ -386,7 +408,7 @@ public class UI {
 		shapeSizePanel();
 		shapeSizeFrame.add(shapeSizePanel);
 		shapeSizeFrame.setAlwaysOnTop(true);
-		shapeSizeFrame.setSize(150, 40);
+		shapeSizeFrame.setSize(220, 40);
 		shapeSizeFrame.setLocation(800, 200);
 		shapeSizeFrame.setResizable(false);
 		shapeSizeFrame.setVisible(false);
@@ -398,8 +420,10 @@ public class UI {
 		shapeSizePanel.setLayout(new GridLayout(1, 1));
 		shapeSizePanel.setPreferredSize(new Dimension(100, 100));
 		shapeSizePanel.setBackground(new Color(60, 60, 60));
+		shapeSizePanel.add(clearFieldButton);
 		shapeSizePanel.add(widthField);
 		shapeSizePanel.add(heigthField);
+		shapeSizePanel.add(sendFieldButton);
 		setDefTextPanel();
 	}
 
@@ -407,8 +431,8 @@ public class UI {
 		musicPanel();
 		musicFrame.add(musicPanel);
 		musicFrame.setAlwaysOnTop(true);
-		musicFrame.setSize(300, 300);
-		musicFrame.setLocation(800, 200);
+		musicFrame.setSize(300, 100);
+		musicFrame.setLocation(500, 50);
 		musicFrame.setResizable(true);
 		musicFrame.setVisible(false);
 		JRootPane root = shapeSizeFrame.getRootPane();
