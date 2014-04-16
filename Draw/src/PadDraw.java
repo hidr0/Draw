@@ -16,6 +16,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -106,15 +107,16 @@ class PadDraw extends JComponent {
 			graphics2D = (Graphics2D) image.getGraphics();
 			graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 					RenderingHints.VALUE_ANTIALIAS_ON);
-			clear();
+			clear(Color.black);
 		}
 		g.drawImage(image, 0, 0, null);
 	}
 
-	public void clear() {
+	public void clear(Color c) {
 		graphics2D.setPaint(Color.white);
 		graphics2D.fillRect(0, 0, getSize().width, getSize().height);
-		graphics2D.setPaint(Color.black);
+		graphics2D.setPaint(c);
+		System.out.println();
 		repaint();
 	}
 
@@ -171,24 +173,26 @@ class PadDraw extends JComponent {
 		chooser = new JFileChooser();
 		chooser.showOpenDialog(null);
 		file = chooser.getSelectedFile();
+		if(file != null){
 		try {
-			img = ImageIO.read(file);
-		} catch (IOException e1) {
-		}
+				img = ImageIO.read(file);
+			} catch (IOException e1) {
+			}
 
 		graphics2D.drawImage(img, 0, 0, null);
 		repaint();
+		}else{
+			JOptionPane.showMessageDialog(null, "You did not select a picture","Why you not selecting PICTURE?", JOptionPane.INFORMATION_MESSAGE);
+		}
 
 	}
 
 	public void saveImage() {
 		
 
-
 		FileNameExtensionFilter filterPNG = new FileNameExtensionFilter("png",
 				"png");
 		
-
 		String[] extension = filterPNG.getExtensions();
 
 		File saveFile = new File("savedimage."+extension[0]);
@@ -196,7 +200,6 @@ class PadDraw extends JComponent {
 		
 
 		JFileChooser chooser2 = new JFileChooser();
-		chooser2.setFileFilter(filterPNG);
 		
 		chooser2.setSelectedFile(saveFile);
 		chooser2.showSaveDialog(null);
@@ -220,5 +223,4 @@ class PadDraw extends JComponent {
 			width = w;
 		}
 	}
-
 }

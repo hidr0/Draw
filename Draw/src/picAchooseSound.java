@@ -13,77 +13,103 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.*;
-public class picAchooseSound{
+
+public class picAchooseSound {
 	JFileChooser soundChooser;
 	File file;
 
 	Clip clip;
 	AudioInputStream audioIn;
 	String fname;
-	float b ;
-	boolean check=false;
+	float b;
+	boolean check = false;
 
-	boolean importCheck=false;
+	boolean importCheck = false;
 	FloatControl gainControl;
-	
-	
-	
-	public void chooseSound(){
-		if(importCheck!=true){
-			importCheck=true;
-		soundChooser = new JFileChooser();
-		soundChooser.showOpenDialog(null);
-		file = soundChooser.getSelectedFile();
-	
+
+	public void chooseSound() {
+		if (importCheck != true) {
+			soundChooser = new JFileChooser();
+			soundChooser.showOpenDialog(null);
+			file = soundChooser.getSelectedFile();
+			if (file != null) {
+				importCheck = true;
+				playSound();
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"You did not select a song",
+						"Why you not selecting SONG?",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
 
+	}
+
+	public void playSound() {
+		if (file == null) {
+			JOptionPane.showMessageDialog(null,
+					"There is no sound selected you must now select a soung",
+					"Trying to play a 'null' sound heh?",
+					JOptionPane.INFORMATION_MESSAGE);
+			chooseSound();
+		} else {
+			if (check != true) {
+				try {
+					check = true;
+					// Open an audio input stream.
+
+					audioIn = AudioSystem.getAudioInputStream(file);
+					// Get a sound clip resource.
+					clip = AudioSystem.getClip();
+					// Open audio clip and load samples from the audio input
+					// stream.
+					clip.open(audioIn);
+					gainControl = (FloatControl) clip
+							.getControl(FloatControl.Type.MASTER_GAIN);
+
+					clip.start();
+					clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+				} catch (UnsupportedAudioFileException w) {
+					w.printStackTrace();
+				} catch (IOException w) {
+					w.printStackTrace();
+				} catch (LineUnavailableException w) {
+					w.printStackTrace();
+				}
+			}
+		}
 
 	}
-	
-	public void playSound(){
-		if(check!=true){
-		try {
-			check = true;
-			// Open an audio input stream.
 
-			 audioIn = AudioSystem.getAudioInputStream(file);
-			// Get a sound clip resource.
-			 clip = AudioSystem.getClip();
-			// Open audio clip and load samples from the audio input stream.
-			clip.open(audioIn);
-			gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-			
-			clip.start();
-			clip.loop(Clip.LOOP_CONTINUOUSLY);
-			
-			
-			
-			
+	public void setVolume(double b) {
 		
-		} catch (UnsupportedAudioFileException w) {
-			w.printStackTrace();
-		} catch (IOException w) {
-			w.printStackTrace();
-		} catch (LineUnavailableException w) {
-			w.printStackTrace();
-		}
+	}
+
+	public void stopMusic() {
+		if (file != null) {
+			clip.stop();
+			check = false;
+			importCheck = false;
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"There is no sound selected you must now select a soung",
+					"Trying to stop a 'null' sound heh?",
+					JOptionPane.INFORMATION_MESSAGE);
+			chooseSound();
 		}
 	}
 
-	public void setVolume(){
-		
-	}
-	
-	
-	public void stopMusic(){
-		clip.stop();
-		check = false;
-		importCheck=false;
-	}
-	
-
-	public void mute(){
-		gainControl.setValue(gainControl.getMinimum());
+	public void mute() {
+		if (file != null) {
+			gainControl.setValue(gainControl.getMinimum());
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"There is no sound selected you must now select a soung",
+					"Trying to mute a 'null' sound heh?",
+					JOptionPane.INFORMATION_MESSAGE);
+			chooseSound();
+		}
 	}
 
 }
